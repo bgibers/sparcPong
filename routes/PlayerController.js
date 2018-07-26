@@ -130,10 +130,7 @@ router.post('/change/email', auth.jwtAuthProtected, function(req, res, next) {
 	var newEmail = req.body.newEmail ? req.body.newEmail.replace(/\s+/g, '') : null;
     var clientId = AuthService.verifyToken(req.token).playerId;
 
-
     if (!clientId) return next(new Error('You must provide a valid player id.'));
-	if (!newEmail || newEmail.length === 0) return next(new Error('You must provide an email address.'));
-	if (newEmail.length > 50) return next(new Error('Your email length cannot exceed 50 characters.'));
 
     EmailService.verifyEmail(newEmail)
 		.then(Player.emailExists(newEmail))
